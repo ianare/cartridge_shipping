@@ -1,0 +1,36 @@
+{% load mezzanine_tags %}
+
+{% if form.shipping_type %}
+
+<script type="text/javascript" charset="utf-8">
+function setChoices() {
+  if ( $("#{{form.same_billing_shipping.auto_id}}").is(":checked") ) {
+    country = $("#{{form.billing_detail_country.auto_id}}").val();
+  } else {
+    country = $("#{{form.shipping_detail_country.auto_id}}").val();
+  }
+  if (!country) {
+    $("#{{form.shipping_type.auto_id}}").html("");
+    return;
+  }
+  $.ajax({ // ajax call starts
+      url: '{% url 'shipping_choices' %}'  + country + '/',
+      dataType: 'json',
+    })
+    .done(function(data) {
+      var options = '';
+      for (i = 0; i < data.choices.length; i++) {
+        var choice = data.choices[i];
+        options += '<option value="' + choice.code + '">' + choice.display + '</option>';
+      }
+      $("#{{form.shipping_type.auto_id}}").html(options);
+  });
+};
+$("#{{form.billing_detail_country.auto_id}}, #{{form.shipping_detail_country.auto_id}}").change(function() {
+  setChoices();
+});
+setChoices();
+</script>
+{% fields_for form.shipping_type_field %}
+
+{% endif %}
