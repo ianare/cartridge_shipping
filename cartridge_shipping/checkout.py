@@ -11,30 +11,30 @@ settings.use_editable()
 
 
 def _get_ship_zone(country: str) -> str:
-    for zone, countries in settings.SHIPPING_ZONES.items():
+    for zone, countries in settings.SHOP_SHIPPING_ZONES.items():
         try:
             if country in countries:
                 return zone
         except TypeError:
             pass
-    return settings.SHIPPING_FALLBACK_ZONE.upper()
+    return settings.SHOP_SHIPPING_FALLBACK_ZONE.upper()
 
 
 def get_ship_choices(country: str, request) -> list:
     zone = _get_ship_zone(country.upper())
     zone_code = zone.upper()
     choices = []
-    free_ship = getattr(settings, "SHIPPING_FREE_AMOUNT_%s" % zone_code)
+    free_ship = getattr(settings, "SHOP_SHIPPING_FREE_AMOUNT_%s" % zone_code)
     if request.cart.total_price() >= free_ship:
         choices.append({
             'code': "FREE",
             'display': _("free shipping")
         })
         return choices
-    for ship_type in settings.SHIPPING_TYPES:
+    for ship_type in settings.SHOP_SHIPPING_TYPES:
         type_code = ship_type[0].upper()
         type_name = ship_type[1].title()
-        cost_code = 'SHIPPING_COST_%s_%s' % (zone_code, type_code)
+        cost_code = 'SHOP_SHIPPING_COST_%s_%s' % (zone_code, type_code)
         cost = getattr(settings, cost_code)
         if cost:
             choices.append({

@@ -1,11 +1,9 @@
-from collections import OrderedDict
-
 from django.utils.translation import ugettext_lazy as _
 
 from mezzanine.conf import register_setting
 
 
-SHIPPING_ZONES = {
+SHOP_SHIPPING_ZONES = {
     'France': (
         'AD',
         'FR',
@@ -59,27 +57,27 @@ SHIPPING_ZONES = {
     'World': None
 }
 register_setting(
-        name="SHIPPING_ZONES",
+        name="SHOP_SHIPPING_ZONES",
         label=_("Shipping zones"),
         description=_("Shipping zones"),
         editable=False,
-        default=SHIPPING_ZONES
+        default=SHOP_SHIPPING_ZONES
 )
 
-SHIPPING_TYPES = (
+SHOP_SHIPPING_TYPES = (
     ('STD', 'standard'),
     ('RGT', 'registered'),
 )
 register_setting(
-        name="SHIPPING_TYPES",
+        name="SHOP_SHIPPING_TYPES",
         label=_("Shipping types"),
         description=_("Shipping types"),
         editable=False,
-        default=SHIPPING_TYPES
+        default=SHOP_SHIPPING_TYPES
 )
 
 register_setting(
-        name="SHIPPING_FALLBACK_ZONE",
+        name="SHOP_SHIPPING_FALLBACK_ZONE",
         label=_("Fallback zone"),
         description=_("Fallback zone"),
         editable=False,
@@ -88,11 +86,11 @@ register_setting(
 
 template_settings = []
 
-for zone, countries in SHIPPING_ZONES.items():
+for zone, countries in SHOP_SHIPPING_ZONES.items():
     zone_code = zone.upper()
     zone_title = zone.title()
 
-    free_amount_setting = "SHIPPING_FREE_AMOUNT_%s" % zone_code
+    free_amount_setting = "SHOP_SHIPPING_FREE_AMOUNT_%s" % zone_code
     register_setting(
         name=free_amount_setting,
         label=_("Free shipping amount - %(zone)s" % {
@@ -106,10 +104,10 @@ for zone, countries in SHIPPING_ZONES.items():
     )
     template_settings.append(free_amount_setting)
 
-    for type in SHIPPING_TYPES:
+    for type in SHOP_SHIPPING_TYPES:
         type_code = type[0].upper()
         type_name = type[1].title()
-        value_setting = "SHIPPING_COST_%(zone)s_%(type)s" % {
+        value_setting = "SHOP_SHIPPING_COST_%(zone)s_%(type)s" % {
             'zone': zone_code,
             'type': type_code
         }

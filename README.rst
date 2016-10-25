@@ -19,7 +19,7 @@ Add shipping URLS::
 
   urlpatterns += [
       # cartridge_shipping URLs.
-      url("^shop/", include("cartridge_shipping.urls")),
+      url("^shop/", include("cartridge_shipping.urls", namespace='cartridge_shipping')),
 
       ...
   ]

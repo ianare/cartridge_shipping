@@ -1,5 +1,3 @@
-from collections import OrderedDict
-
 from django.http import JsonResponse
 from .checkout import get_ship_choices
 
