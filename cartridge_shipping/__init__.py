@@ -12,3 +12,5 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/lgpl.html>.
 
 __version__ = "0.0.1"
+
+default_app_config = 'cartridge_shipping.apps.CartridgeShippingConfig'
