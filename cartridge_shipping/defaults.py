@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from mezzanine.conf import register_setting
 
 SHIPPING_ZONES = {
-    'World': {
+    'WLD': {
         'name': _("World"),
         'countries': None
     }
@@ -32,5 +32,5 @@ register_setting(
         label=_("Fallback zone"),
         description=_("Fallback zone"),
         editable=False,
-        default='World'
+        default='WLD'
 )
