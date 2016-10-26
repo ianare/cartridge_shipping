@@ -12,8 +12,8 @@ WARNING
 
 Also, I reserve the right to rebase master, so don't clone it, either ;-)
 
-Configuration
-=============
+Installation
+============
 
 Add shipping URLS::
 
@@ -24,7 +24,13 @@ Add shipping URLS::
       ...
     ]
 
-Configure ``SHIPPING_TYPES`` in ``settings.py``, a list of list of shipping types.
+Configuration
+=============
+
+settings.py
+-----------
+
+Configure ``SHIPPING_TYPES``, a list of list of shipping types.
 
 The first element is the type code used internally, keep it short and uppercase.
 
@@ -38,7 +44,7 @@ For example::
         ('XPR', _('express')),
     )
 
-Configure ``SHIPPING_ZONES`` in ``settings.py``, a dictionary of all your shipping zones.
+Configure ``SHIPPING_ZONES``, a dictionary of all your shipping zones.
 
 The key is the zone code used internally, keep it short and uppercase.
 
@@ -125,3 +131,13 @@ You'll notice the 'WLD' item at the bottom, it's the fallback case.
 When a country doesn't match any zone it goes in there.
 
 You can modify ``SHIPPING_FALLBACK_ZONE`` to something else.
+
+
+Administration panel
+--------------------
+
+There should be a new section "Shipping" in your site's administration panel.
+
+Set the values for each shipping type and shipping region according to your needs.
+
+If a value is set to ``0``, it means the type is **not available**.
