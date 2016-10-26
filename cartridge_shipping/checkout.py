@@ -21,6 +21,10 @@ def _get_ship_zone(country: str) -> str:
 
 
 def get_ship_choices(country: str, request) -> list:
+    """
+    Given a country, return which shipping choices are available to the
+    user based on the cart amount.
+    """
     zone = _get_ship_zone(country.upper())
     zone_code = zone.upper()
     choices = []
@@ -28,7 +32,7 @@ def get_ship_choices(country: str, request) -> list:
     if request.cart.total_price() >= free_ship:
         choices.append({
             'code': "FREE",
-            'display': _("free shipping")
+            'display': "%s - %s" % (_("free shipping").title(), currency(0))
         })
         return choices
     for ship_type in settings.SHIPPING_TYPES:
