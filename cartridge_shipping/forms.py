@@ -8,4 +8,4 @@ class ShippingChoiceField(forms.ChoiceField):
 
 
 class ShippingForm(forms.Form):
-    shipping_type = ShippingChoiceField(label=_("Shipping Type"), choices=(), required=True)
+    shipping_type = ShippingChoiceField(label=_("Shipping type"), choices=(), required=True)
