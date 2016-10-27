@@ -30,7 +30,7 @@ setup(
     url="https://github.com/ianare/cartridge_shipping",
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
-        "Development Status :: 2 - Pre-Alpha",
+        "Development Status :: 3 - Alpha",
         "Environment :: Web Environment",
         "Framework :: Django",
         "Framework :: Django :: 1.8",

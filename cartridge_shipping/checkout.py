@@ -20,6 +20,22 @@ def _get_ship_zone(country: str) -> str:
     return settings.SHIPPING_FALLBACK_ZONE.upper()
 
 
+def get_ship_choice_codes(country: str) -> list:
+    """
+    Given a country, return which shipping choices are available.
+    """
+    zone = _get_ship_zone(country.upper())
+    zone_code = zone.upper()
+    choices = []
+    for ship_type in settings.SHIPPING_TYPES:
+        type_code = ship_type[0].upper()
+        cost_code = 'SHIPPING_COST_%s_%s' % (zone_code, type_code)
+        cost = getattr(settings, cost_code)
+        if cost:
+            choices.append(cost_code)
+    return choices
+
+
 def get_ship_choices(country: str, request) -> list:
     """
     Given a country, return which shipping choices are available to the
@@ -32,7 +48,7 @@ def get_ship_choices(country: str, request) -> list:
     if request.cart.total_price() >= free_ship:
         choices.append({
             'code': "FREE",
-            'display': "%s - %s" % (_("free shipping").title(), currency(0))
+            'display': "%s - %s" % (_("Free shipping").title(), currency(0))
         })
         return choices
     for ship_type in settings.SHIPPING_TYPES:

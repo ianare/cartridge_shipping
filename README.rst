@@ -8,9 +8,7 @@ Multiple zone shipping handler for Cartridge.
 WARNING
 =======
 
-**This is pre-alpha code!** Don't use it... *yet*.
-
-Also, I reserve the right to rebase master, so don't clone it, either ;-)
+**This is alpha code!** Not production-tested, use with caution.
 
 Installation
 ============
@@ -29,6 +27,11 @@ Configuration
 
 settings.py
 -----------
+
+Set the Cartridge billing handler::
+
+    SHOP_HANDLER_BILLING_SHIPPING = "cartridge_shipping.checkout.multizone_billship_handler"
+
 
 Configure ``SHIPPING_TYPES``, a list of list of shipping types.
 
