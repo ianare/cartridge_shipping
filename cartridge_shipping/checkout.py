@@ -20,13 +20,16 @@ def _get_ship_zone(country: str) -> str:
     return settings.SHIPPING_FALLBACK_ZONE.upper()
 
 
-def get_ship_choice_codes(country: str) -> list:
+def get_ship_choice_codes(country: str, request) -> list:
     """
     Given a country, return which shipping choices are available.
     """
     zone = _get_ship_zone(country.upper())
     zone_code = zone.upper()
     choices = []
+    free_ship = getattr(settings, "SHIPPING_FREE_AMOUNT_%s" % zone_code)
+    if request.cart.total_price() >= free_ship:
+        choices.append("SHIPPING_COST_%s_FREE" % zone_code)
     for ship_type in settings.SHIPPING_TYPES:
         type_code = ship_type[0].upper()
         cost_code = 'SHIPPING_COST_%s_%s' % (zone_code, type_code)
@@ -47,8 +50,8 @@ def get_ship_choices(country: str, request) -> list:
     free_ship = getattr(settings, "SHIPPING_FREE_AMOUNT_%s" % zone_code)
     if request.cart.total_price() >= free_ship:
         choices.append({
-            'code': "FREE",
-            'display': "%s - %s" % (_("Free shipping").title(), currency(0))
+            'code': "SHIPPING_COST_%s_FREE" % zone_code,
+            'display': "%s - %s" % (_("free shipping").title(), currency(0))
         })
         return choices
     for ship_type in settings.SHIPPING_TYPES:
@@ -79,7 +82,10 @@ def _set_ship_rate(country: str, shipping_code: str, request) -> bool:
             if ship_name == ship_type[0]:
                 ship_name = ship_type[1]
                 break
-        shipping_type = "%s - %s" % (zone_name.title(), ship_name.title())
+        if ship_name == 'FREE':
+            shipping_type = 'free_shipping'
+        else:
+            shipping_type = "%s - %s" % (zone_name.title(), ship_name.title())
         set_shipping(request, shipping_type, shipping_cost)
         return True
     else:

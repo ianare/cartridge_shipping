@@ -29,6 +29,14 @@ class CartridgeShippingConfig(AppConfig):
             )
             template_settings.append(free_amount_setting)
 
+            free_cost_setting = "SHIPPING_COST_%s_FREE" % zone_code
+            register_setting(
+                name=free_cost_setting,
+                editable=False,
+                default=0.0
+            )
+            template_settings.append(free_cost_setting)
+
             for type in settings.SHIPPING_TYPES:
                 type_code = type[0].upper()
                 type_name = type[1].title()
